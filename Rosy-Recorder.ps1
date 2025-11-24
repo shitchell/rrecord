@@ -269,7 +269,7 @@ function Install-FFmpeg {
     $extractPath = Join-Path $script:cacheDir "ffmpeg"
 
     try {
-        Write-Host "[DEBUG] Downloading ffmpeg (~80MB)..." -ForegroundColor Cyan
+        Write-Host "[DEBUG] Downloading ffmpeg (~100MB)..." -ForegroundColor Cyan
 
         # Download with progress dialog
         $null = Show-DownloadProgress -Title "Downloading FFmpeg" -Url $ffmpegUrl -DestinationPath $zipPath
@@ -628,6 +628,11 @@ $form.MinimumSize = New-Object System.Drawing.Size(515, 415)
 $form.StartPosition = "CenterScreen"
 $form.TopMost = $true
 $form.Padding = New-Object System.Windows.Forms.Padding(10, 10, 10, 10)
+
+# Disable TopMost after form is shown so it doesn't block popups
+$form.Add_Shown({
+    $form.TopMost = $false
+})
 $form.Font = New-Object System.Drawing.Font("Segoe UI", 9)
 $form.BackColor = $script:colors.Background
 $form.ForeColor = $script:colors.TextPrimary
@@ -928,7 +933,7 @@ $initTimer.Add_Tick({
 
     if (-not $script:ffmpegFullPath) {
         $result = [System.Windows.Forms.MessageBox]::Show(
-            "FFmpeg is required but was not found.`n`nWould you like to download and install it automatically?`n`n(~80MB download)`n`nSource: https://www.gyan.dev/ffmpeg/builds/",
+            "FFmpeg is required but was not found.`n`nWould you like to download and install it automatically?`n`n(~100MB download)`n`nSource: https://www.gyan.dev/ffmpeg/builds/",
             "Install FFmpeg?",
             [System.Windows.Forms.MessageBoxButtons]::YesNo,
             [System.Windows.Forms.MessageBoxIcon]::Question
