@@ -6,7 +6,7 @@
 $enableExperimentalPause = $false
 $ffmpegPath = ""
 $defaultSaveDir = Join-Path $env:USERPROFILE "Documents\RosyRecordings"
-$defaultFileNamePattern = "RRecorder_{0:yyyy-MM-dd_HH-mm-ss}.wav"
+$defaultFileNamePattern = "Recording_{0:yyyy-MM-dd_HH-mm-ss}.wav"
 
 ###############################################################################
 # END CONFIG
