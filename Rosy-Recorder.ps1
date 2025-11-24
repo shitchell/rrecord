@@ -6,7 +6,7 @@
 $enableExperimentalPause = $false
 $ffmpegPath = ""
 $defaultSaveDir = Join-Path $env:USERPROFILE "Documents\RosyRecordings"
-$defaultFileNamePattern = "Recording_{0:yyyy-MM-dd_HH-mm-ss}.wav"
+$defaultFileNamePattern = "Recording_{0:yyyy-MM-dd_HH-mm-ss}.mp3"
 
 ###############################################################################
 # END CONFIG
@@ -521,7 +521,7 @@ function Build-FfmpegArgs {
         $argParts += @("-af", "volume=$($Volumes[0])")
     }
 
-    $argParts += @("-ac", "2", "-ar", "48000", "-c:a", "pcm_s16le", "`"$OutputPath`"")
+    $argParts += @("-ac", "2", "-ar", "48000", "-c:a", "libmp3lame", "-b:a", "192k", "`"$OutputPath`"")
     return ($argParts -join " ")
 }
 
@@ -699,7 +699,7 @@ $btnBrowse.Cursor = [System.Windows.Forms.Cursors]::Hand
 
 $btnBrowse.Add_Click({
     $saveDialog = New-Object System.Windows.Forms.SaveFileDialog
-    $saveDialog.Filter = "WAV Audio|*.wav|All Files|*.*"
+    $saveDialog.Filter = "MP3 Audio|*.mp3|All Files|*.*"
     $saveDialog.FileName = [System.IO.Path]::GetFileName($txtSavePath.Text)
     $saveDialog.InitialDirectory = [System.IO.Path]::GetDirectoryName($txtSavePath.Text)
     if ($saveDialog.ShowDialog($form) -eq [System.Windows.Forms.DialogResult]::OK) {
@@ -928,7 +928,7 @@ $initTimer.Add_Tick({
 
     if (-not $script:ffmpegFullPath) {
         $result = [System.Windows.Forms.MessageBox]::Show(
-            "FFmpeg is required but was not found.`n`nWould you like to download and install it automatically?`n`n(~80MB download)",
+            "FFmpeg is required but was not found.`n`nWould you like to download and install it automatically?`n`n(~80MB download)`n`nSource: https://www.gyan.dev/ffmpeg/builds/",
             "Install FFmpeg?",
             [System.Windows.Forms.MessageBoxButtons]::YesNo,
             [System.Windows.Forms.MessageBoxIcon]::Question
@@ -960,7 +960,7 @@ $initTimer.Add_Tick({
 
     if (-not $vacInstalled) {
         $result = [System.Windows.Forms.MessageBox]::Show(
-            "Virtual Audio Capturer is not installed.`n`nThis is required to record system audio (what you hear).`n`nInstall now?",
+            "Virtual Audio Capturer is not installed.`n`nThis is required to record system audio (what you hear).`n`nInstall now?`n`nSource: https://github.com/rdp/screen-capture-recorder-to-video-windows-free",
             "Install Virtual Audio Capturer?",
             [System.Windows.Forms.MessageBoxButtons]::YesNo,
             [System.Windows.Forms.MessageBoxIcon]::Question
