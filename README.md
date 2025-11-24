@@ -69,4 +69,4 @@ Run `RosyRecorder-Uninstall.vbs` to remove:
 
 ## License
 
-MIT
+WTFPL
